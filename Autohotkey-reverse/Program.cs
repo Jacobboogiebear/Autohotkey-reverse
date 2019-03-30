@@ -7,9 +7,7 @@ using System.Reflection;
 namespace Ahkr
 {
     class Program
-    {
-        private static XmlDocument doc = new XmlDocument();
-        private static XmlNode headers;
+    { 
         private static FolderExists Folder { get; set; } = new FolderExists();
 
         private static string GetResourceTextFile(string filename)
@@ -104,38 +102,8 @@ namespace Ahkr
                 {
                     string path = exepath + exe;
                     string[] header = new string[128];
-                    string pHeader = "";
                     using (FileStream file = new FileStream(path, FileMode.Open))
                     {
-                        for (int i = 0; i < 128; i++)
-                        {
-                            header[i] = file.ReadByte().ToString("X");
-                            if (header[i].Length == 1)
-                            {
-                                header[i] = "0" + header[i];
-                            }
-                            pHeader += header[i];
-                        }
-                        bool isValid = true;
-                        foreach (XmlNode head in headers.ChildNodes)
-                        {
-                            XmlAttributeCollection collection = head.Attributes;
-                            if (head.InnerText == pHeader)
-                            {
-                                Console.WriteLine("Autohot Decomp: " + collection.GetNamedItem("result").Value);
-                                isValid = Convert.ToBoolean(collection.GetNamedItem("isValid").Value);
-                                break;
-                            }
-                        }
-                        if (isValid && pHeader != "4D5A90000300000004000000FFFF0000B800000000000000400000000000000000000000000000000000000000000000000000000000000000000000100100000E1FBA0E00B409CD21B8014CCD21546869732070726F6772616D2063616E6E6F742062652072756E20696E20444F53206D6F64652E0D0D0A2400000000000000" && pHeader != "4D5A90000300000004000000FFFF0000B800000000000000400000000000000000000000000000000000000000000000000000000000000000000000F00000000E1FBA0E00B409CD21B8014CCD21546869732070726F6772616D2063616E6E6F742062652072756E20696E20444F53206D6F64652E0D0D0A2400000000000000")
-                        {
-                            Console.WriteLine("Autohot Decomp: This program is made in an unknown language and isn't supported by this decompiler!");
-                            isValid = false;
-                        }
-                        if (!isValid)
-                        {
-                            return;
-                        }
                         string[] byteSearch = new string[12];
                         string[] byteSearch2 = new string[6];
                         for (int i = 0; i < byteSearch.Length; i++)
@@ -250,9 +218,6 @@ namespace Ahkr
         }
         static void Main(string[] args)
         {
-            doc.LoadXml(GetResourceTextFile("headers.xml"));
-            headers = doc.DocumentElement.GetElementsByTagName("headers")[0];
-
             if (args.Length == 2)
             {
                 ConvertScript(args);
