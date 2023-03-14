@@ -58,4 +58,17 @@ impl Executable {
         }
         self.sections = Some(ret);
     }
+
+    pub(super) fn get_rsrc_section(&mut self) {
+        let mut size_of_raw_data: usize = 0;
+        let mut pointer_to_raw_data: usize = 0;
+        for index in self.sections.clone().unwrap() {
+            if index.title == String::from(".rsrc") {
+                size_of_raw_data = index.size_of_raw_data;
+                pointer_to_raw_data = index.pointer_to_raw_data;
+            }
+        }
+        let rdata = &self.raw_buffer[pointer_to_raw_data..pointer_to_raw_data + size_of_raw_data];
+        self.rsrc_section = Some(rdata.to_vec());
+    }
 }

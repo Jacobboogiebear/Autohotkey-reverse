@@ -23,5 +23,6 @@ fn main() {
     let mut file = exe::Executable::new(&mut file_contents);
     drop(file_contents);
 
-    // println!("{:?}", file);
+    println!("AHK Version: {}", file.clone().unwrap().parse_ahk_version());
+    println!("Compiler Version: {}", file.unwrap().parse_ahk_compiler());
 }

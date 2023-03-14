@@ -77,3 +77,31 @@ pub fn vec_get_string_nnt(raw_buffer: &mut Vec<u8>, index: usize, len: usize) ->
         return None;
     }
 }
+
+pub fn vec_get_string_ct(raw_buffer: &mut Vec<u8>, index: usize, ch: char) -> Option<String> {
+    if raw_buffer.len() >= index + 1 {
+        let mut ret = String::new();
+        let lp = &raw_buffer[index..];
+        for i in lp {
+            if i.clone() as char == ch {
+                return Some(ret);
+            } else {
+                ret.push(i.clone() as char);
+            }
+        }
+        return Some(ret);
+    } else {
+        return None;
+    }
+}
+
+pub fn vec_slide_search(raw_buffer: &mut Vec<u8>, search: &Vec<u8>) -> Option<usize> {
+    let original_comparison = &search[..];
+    for i in 0..raw_buffer.len() - (search.len() - 1) {
+        let comparison = &raw_buffer[i..search.len() + i];
+        if comparison == original_comparison {
+            return Some(i);
+        }
+    }
+    return None;
+}
