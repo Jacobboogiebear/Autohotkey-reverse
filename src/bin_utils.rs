@@ -95,6 +95,26 @@ pub fn vec_get_string_ct(raw_buffer: &mut Vec<u8>, index: usize, ch: char) -> Op
     }
 }
 
+pub fn vec_get_string_st(raw_buffer: &mut Vec<u8>, index: usize, es: String) -> Option<String> {
+    if raw_buffer.len() >= index + es.len() {
+        let mut ret = String::new();
+        let lp = &raw_buffer[index..];
+        let compare_vec = es.as_bytes().to_vec();
+        let compare = &compare_vec[..];
+        for i in 0..lp.len() - (es.len() - 1) {
+            let subst = &lp[i..i + es.len()];
+            if subst == compare {
+                return Some(ret);
+            } else {
+                ret.push(subst[0] as char);
+            }
+        }
+        return Some(ret);
+    } else {
+        return None;
+    }
+}
+
 pub fn vec_slide_search(raw_buffer: &mut Vec<u8>, search: &Vec<u8>) -> Option<usize> {
     let original_comparison = &search[..];
     for i in 0..raw_buffer.len() - (search.len() - 1) {
