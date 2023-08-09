@@ -1,0 +1,12 @@
+[package]
+name = "ahkr-cli"
+version = "2.0.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bin-analyzer = { path = "../bin-analyzer" }
+clap = { version = "4.3.21", features = ["derive"] }
+data-extractor = { path = "../data-extractor" }
+owo-colors = { version = "3.5.0", features = ["alloc", "supports-color", "supports-colors"] }
