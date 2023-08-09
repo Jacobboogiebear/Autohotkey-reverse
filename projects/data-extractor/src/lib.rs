@@ -10,7 +10,13 @@ impl Extractor {
     pub fn default(data: impl ToString) -> Option<AhkScript> {
         let data = data.to_string();
         let bin_file = ExeBinaryFile::new(data)?;
-        let rsrc_table = bin_file.resource_directory_table?;
+        let rsrc_table = {
+            if bin_file.resource_directory_table.is_some() {
+                bin_file.resource_directory_table.unwrap()
+            } else {
+                return None;
+            }
+        };
         for i in 0..rsrc_table.number_of_id_entries {
             if rsrc_table.id_entries[i as usize].int_id == 10 {
                 let entry = rsrc_table.id_entries[i as usize]
